@@ -13,16 +13,6 @@ Nel database sono già presenti degli utenti:
 
 *N.B: Per usare gli utenti predefiniti, bisogna lasciare la AUTH_KEY al valore predefinito*
 
-Inizializza il package:
-```shell
-$ npm init
-```
-
-Installa i pacchetti usati dall'API con il seguente comando:
-```shell
-$ npm install crypto-js dotenv express jsonwebtoken mysql
-```
-
 Poi crea un file '.env' nella cartella principale:
 ```code
 DB_HOST = <ip_del_database>
