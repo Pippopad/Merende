@@ -41,6 +41,38 @@ router.get('/', verifyAdmin, (req, res) => {
     });
 });
 
+router.get('/stats', verifyAdmin, (req, res) => {
+    var stats = {
+        1: {},
+        2: {},
+        3: {},
+        4: {},
+        5: {},
+        6: {},
+        7: {}
+    };
+//
+    conn.query("SELECT * FROM orders", (err, rows, fields) => {
+        conn.query("SELECT * FROM foods", (err2, rows2, fields2) => {
+            rows2.forEach(food => {
+                for (let i = 1; i <= 7; i++) {
+                    stats[i][food.name] = 0;
+                }
+                
+                rows.forEach(order => {
+                    for (let i = 1; i <= 7; i++) {
+                        var options = { 'weekday': 'long' };
+                        const date = new Date(order.date)
+                        if (order.foodId == food.foodId &&
+                            (date.getDay() - 1) % 7 == i - 1) stats[i][food.name]++;
+                    }
+                });
+            });
+            return res.status(200).send(stats);
+        });
+    });
+});
+
 router.get('/:userId', verifyAuthorization, (req, res) => {
     conn.query(`SELECT * FROM orders WHERE userOwner=${req.params.userId}`, (err, rows, fields) => {
         return res.status(200).send(rows);
