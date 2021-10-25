@@ -35,5 +35,17 @@ router.post('/', verifyNotAdmin, (req, res) => {
     });
 });
 
+router.get('/', verifyAdmin, (req, res) => {
+    conn.query("SELECT * FROM orders", (err, rows, fields) => {
+        return res.status(200).send({ rows });
+    });
+});
+
+router.get('/:userId', verifyAuthorization, (req, res) => {
+    conn.query(`SELECT * FROM orders WHERE userOwner=${req.params.userId}`, (err, rows, fields) => {
+        return res.status(200).send(rows);
+    });
+});
+
 // Ritorna la route contenente tutti gli endpoint
 module.exports = router;
