@@ -30,13 +30,6 @@ AUTH_KEY = <chiave_per_criptare_le_password_degli_utenti>
 ```
 *N.B: Il valore di default di AUTH_KEY è `g5Ru4eTv6pvI2t1YD43w2W4tvdDvo6R`*
 
-Imposta lo script di partenza nel file package.json
-```json
-"scripts": {
-  "start": "nodemon index.js"
-},
-```
-
 Fai partire il progetto:
 ```shell
 $ npm start
