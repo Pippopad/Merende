@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2021 at 11:09 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- Creato il: Ott 26, 2021 alle 13:09
+-- Versione del server: 10.4.18-MariaDB
+-- Versione PHP: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `foods`
+-- Struttura della tabella `foods`
 --
 
 CREATE TABLE `foods` (
@@ -34,7 +34,7 @@ CREATE TABLE `foods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `foods`
+-- Dump dei dati per la tabella `foods`
 --
 
 INSERT INTO `foods` (`foodId`, `name`, `price`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `foods` (`foodId`, `name`, `price`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Struttura della tabella `orders`
 --
 
 CREATE TABLE `orders` (
@@ -61,7 +61,7 @@ CREATE TABLE `orders` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struttura della tabella `users`
 --
 
 CREATE TABLE `users` (
@@ -76,26 +76,26 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `users`
+-- Dump dei dati per la tabella `users`
 --
 
 INSERT INTO `users` (`userId`, `username`, `first_name`, `second_name`, `last_name`, `password`, `email`, `attribute`) VALUES
-(1, 'admin', 'Lorenzo', '', 'Pascale', 'U2FsdGVkX19rCVljwmXKQVXScDrDoq5dyK0yg+RsAz8=', 'admin@iisve.it', 'admin'),
-(2, 's23710', 'Lorenzo', '', 'Pascale', 'U2FsdGVkX19rCVljwmXKQVXScDrDoq5dyK0yg+RsAz8=', 's23710@iisve.it', '3 CI'),
-(3, 's23552', 'Marco', '', 'Giacchini', 'U2FsdGVkX1+7DoaE9mHs4XNxrJMgCz2056ApaySIvG8=', 's23552@iisve.it', '3 CI');
+(1, 'admin', 'Lorenzo', '', 'Pascale', 'U2FsdGVkX1+ZSV5l7lGchcpr1nk+FP0xxr6SxyFseqM=', 'admin@iisve.it', 'admin'),
+(2, 's23710', 'Lorenzo', '', 'Pascale', 'U2FsdGVkX1+ZSV5l7lGchcpr1nk+FP0xxr6SxyFseqM=', 's23710@iisve.it', '3 CI'),
+(3, 's23552', 'Marco', '', 'Giacchini', 'U2FsdGVkX1+b/F/foE17moMK7WnE9BIhr35OfyDYVhg=', 's23552@iisve.it', '3 CI');
 
 --
--- Indexes for dumped tables
+-- Indici per le tabelle scaricate
 --
 
 --
--- Indexes for table `foods`
+-- Indici per le tabelle `foods`
 --
 ALTER TABLE `foods`
   ADD PRIMARY KEY (`foodId`);
 
 --
--- Indexes for table `orders`
+-- Indici per le tabelle `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`orderId`),
@@ -103,39 +103,39 @@ ALTER TABLE `orders`
   ADD KEY `foodId` (`foodId`);
 
 --
--- Indexes for table `users`
+-- Indici per le tabelle `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userId`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT for table `foods`
+-- AUTO_INCREMENT per la tabella `foods`
 --
 ALTER TABLE `foods`
   MODIFY `foodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT per la tabella `orders`
 --
 ALTER TABLE `orders`
   MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
   MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Constraints for table `orders`
+-- Limiti per la tabella `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userOwner`) REFERENCES `users` (`userId`) ON DELETE NO ACTION ON UPDATE CASCADE,
