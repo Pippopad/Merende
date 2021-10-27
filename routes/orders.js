@@ -52,19 +52,19 @@ router.get('/', verifyAdmin, (req, res) => {
 */
 router.get('/stats', verifyAdmin, (req, res) => {
     var stats = [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
     ];
 
     conn.query("SELECT * from orders WHERE YEAR(CURRENT_DATE)*52+WEEK(CURRENT_DATE, 1) - YEAR(date)*52 - WEEK(date, 1) = 1", (err, rows, fields) => {
         conn.query("SELECT * FROM foods", (err2, rows2, fields2) => {
             rows2.forEach(food => {
                 for (let i = 0; i < 6; i++) {
-                    stats[i][food.name] = 0;
+                    stats[i].push([food.name, 0]);
                 }
                 
                 rows.forEach(order => {
@@ -75,7 +75,12 @@ router.get('/stats', verifyAdmin, (req, res) => {
                         // Normale: num % div = result
                         // Javascript: ((num % div) + div) % div = result
                         if (order.foodId == food.foodId &&
-                            (((date.getDay() - 1) % 7) + 7) % 7 == i) stats[i][food.name]++;
+                            (((date.getDay() - 1) % 7) + 7) % 7 == i) {
+                                for (let j = 0; j < stats[i].length; j++) {
+                                    if (stats[i][j][0] == food.name) stats[i][j][1]++;
+                                    break;
+                                }
+                            }
                     }
                 });
             });
