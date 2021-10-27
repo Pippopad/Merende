@@ -1,6 +1,7 @@
 // Importa le librerie
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Carica il file di configurazione (.env)
@@ -14,6 +15,7 @@ const authRoute = require('./routes/auth');
 const ordersRoute = require('./routes/orders');
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoute);
 app.use('/api/orders', ordersRoute);
