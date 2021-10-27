@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Merende</title>
+    </head>
+    <body>
+        <div class="main">
+            <div class="login-box">
+                <input type="text" id="txt_username" />
+                <input type="password" id="txt_password" />
+                <button onClick="login()">Login</button>
+                <button onClick="getStats()">Get Stats</button>
+            </div>
+            <table border=2>
+                <thead>
+                    <tr>
+                        <th>Cibo</th>
+                        <th>Luned&igrave;</th>
+                        <th>Marted&igrave;</th>
+                        <th>Mercoled&igrave;</th>
+                        <th>Gioved&igrave;</th>
+                        <th>Venerd&igrave;</th>
+                        <th>Sabato</th>
+                    </tr>
+                </thead>
+                <tbody id="foodsContainer">
+                </tbody>
+            </table>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>
