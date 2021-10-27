@@ -55,7 +55,7 @@ CREATE TABLE `orders` (
   `classOwner` varchar(6) NOT NULL,
   `foodId` int(11) NOT NULL,
   `done` varchar(1) NOT NULL DEFAULT 'n',
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
+  `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
