@@ -77,8 +77,10 @@ router.get('/stats', verifyAdmin, (req, res) => {
                         if (order.foodId == food.foodId &&
                             (((date.getDay() - 1) % 7) + 7) % 7 == i) {
                                 for (let j = 0; j < stats[i].length; j++) {
-                                    if (stats[i][j][0] == food.name) stats[i][j][1]++;
-                                    break;
+                                    if (stats[i][j][0] == food.name) {
+                                        stats[i][j][1]++;
+                                        break;
+                                    }
                                 }
                             }
                     }
