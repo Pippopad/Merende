@@ -1,6 +1,7 @@
 const loginTextBox = document.getElementById("txt_username");
 const passwordTextBox = document.getElementById("txt_password");
 const foodsContainer = document.getElementById("foodsContainer");
+const ordersTable = document.getElementById("orders");
 
 async function login () {
     await fetch("http://localhost:5000/api/auth/login", {
@@ -14,7 +15,10 @@ async function login () {
         })
     }).then(response => response.json())
     .then(data => {
-        if (data.token) window.localStorage.setItem("token", data.token);
+        if (data.token) {
+            window.localStorage.setItem("token", data.token);
+            alert("OK");
+        } else alert("Invalid credential!");
     });
 }
 
@@ -24,10 +28,35 @@ async function getStats() {
     await fetch("http://localhost:5000/api/orders/stats", {
         method: 'GET',
         headers: {
-            "token": window.localStorage.getItem("token")
+            "token": "Bearer " + window.localStorage.getItem("token")
         }
     }).then(response => response.json())
     .then(data => {
-        console.log(data);
+        var stats = [];
+
+        for (let i = 0; i < data[0].length; i++) {
+            stats.push([data[0][i][0], [0, 0, 0, 0, 0, 0]]);
+        }
+        
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < data[i].length; j++)
+            stats[j][1][i] += data[i][j][1];
+        }
+        
+        for (let i = 0; i < stats.length; i++) {
+            const row = document.createElement("tr");
+
+            const cellFood = document.createElement("td");
+            cellFood.innerHTML = stats[i][0];
+            row.appendChild(cellFood);
+
+            for (let j = 0; j < stats[i][1].length; j++) {
+                const cell = document.createElement("td");
+                cell.innerHTML = stats[i][1][j];
+                row.appendChild(cell);
+            }
+
+            ordersTable.appendChild(row);
+        }
     });
 }
