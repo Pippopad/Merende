@@ -31,8 +31,18 @@ function logout() {
     }
 }
 
+function deleteChilds(parent) {
+    first = parent.firstChild;
+    while (first) {
+        parent.removeChild(first);
+        first = parent.firstChild;
+    }
+}
+
 async function getStats() {
-    if (!window.localStorage.getItem("token")) alert("Prima devi autenticarti!");
+    deleteChilds(ordersTable.children[1]);
+
+    if (!window.localStorage.getItem("token")) return alert("Prima devi autenticarti!");
 
     await fetch("http://localhost:5000/api/orders/stats", {
         method: 'GET',
