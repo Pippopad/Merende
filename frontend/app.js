@@ -17,8 +17,8 @@ async function login () {
     .then(data => {
         if (data.token) {
             window.localStorage.setItem("token", data.token);
-            alert("OK");
-        } else alert("Invalid credential!");
+            alert("Login effettuato con successo");
+        } else alert("Credenziali non valide!");
     });
 }
 
@@ -55,7 +55,7 @@ async function getStats() {
         for (let i = 0; i < stats.length; i++) {
             const row = document.createElement("tr");
 
-            const cellFood = document.createElement("td");
+            const cellFood = document.createElement("th");
             cellFood.innerHTML = stats[i][0];
             row.appendChild(cellFood);
 
@@ -65,7 +65,7 @@ async function getStats() {
                 row.appendChild(cell);
             }
 
-            ordersTable.appendChild(row);
+            ordersTable.children[1].appendChild(row);
         }
     });
 }
