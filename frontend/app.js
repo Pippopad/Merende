@@ -25,6 +25,7 @@ async function login () {
 function logout() {
     if (window.localStorage.getItem("token")) {
         window.localStorage.removeItem("token");
+        deleteChilds(ordersTable.children[1]);
         alert("Disconnesso");
     } else {
         alert("Non sei autenticato!");
