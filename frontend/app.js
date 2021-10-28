@@ -50,28 +50,17 @@ async function getStats() {
             "token": "Bearer " + window.localStorage.getItem("token")
         }
     }).then(response => response.json())
-    .then(data => {
-        var stats = [];
-
-        for (let i = 0; i < data[0].length; i++) {
-            stats.push([data[0][i][0], [0, 0, 0, 0, 0, 0]]);
-        }
-        
-        for (let i = 0; i < 6; i++) {
-            for (let j = 0; j < data[i].length; j++)
-            stats[j][1][i] += data[i][j][1];
-        }
-        
-        for (let i = 0; i < stats.length; i++) {
+    .then(data => {        
+        for (let i = 0; i < data.length; i++) {
             const row = document.createElement("tr");
 
             const cellFood = document.createElement("th");
-            cellFood.innerHTML = stats[i][0];
+            cellFood.innerHTML = data[i][0];
             row.appendChild(cellFood);
 
-            for (let j = 0; j < stats[i][1].length; j++) {
+            for (let j = 0; j < data[i][1].length; j++) {
                 const cell = document.createElement("td");
-                cell.innerHTML = stats[i][1][j];
+                cell.innerHTML = data[i][1][j];
                 row.appendChild(cell);
             }
 

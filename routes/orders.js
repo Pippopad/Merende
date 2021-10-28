@@ -51,41 +51,29 @@ router.get('/', verifyAdmin, (req, res) => {
     di ogni prodotto della settimana precedente)
 */
 router.get('/stats', verifyAdmin, (req, res) => {
-    var stats = [
-        [],
-        [],
-        [],
-        [],
-        [],
-        []
-    ];
+    var stats = [];
 
     conn.query("SELECT * from orders WHERE YEAR(CURRENT_DATE)*52+WEEK(CURRENT_DATE, 1) - YEAR(date)*52 - WEEK(date, 1) = 1", (err, rows, fields) => {
         conn.query("SELECT * FROM foods", (err2, rows2, fields2) => {
-            rows2.forEach(food => {
-                for (let i = 0; i < 6; i++) {
-                    stats[i].push([food.name, 0]);
-                }
-                
-                rows.forEach(order => {
-                    for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < rows2.length; i++) {
+                stats.push([rows2[i].name, [0, 0, 0, 0, 0, 0]]);
+            }
+            
+            for (let i = 0; i < rows2.length; i++) {
+                rows2.forEach(food => {
+                    rows.forEach(order => {
                         const date = new Date(order.date);
-
-                        // La funzione mod in javascript si scrive in un altro modo
-                        // Normale: num % div = result
-                        // Javascript: ((num % div) + div) % div = result
-                        if (order.foodId == food.foodId &&
-                            (((date.getDay() - 1) % 7) + 7) % 7 == i) {
-                                for (let j = 0; j < stats[i].length; j++) {
-                                    if (stats[i][j][0] == food.name) {
-                                        stats[i][j][1]++;
-                                        break;
-                                    }
+                        if (order.foodId == food.foodId) {
+                            for (let j = 0; j < 6; j++) {
+                                if (stats[i][0] == food.name && (((date.getDay() - 1) % 7) + 7) % 7 == j) {
+                                    stats[i][1][j] += 1;
                                 }
                             }
-                    }
+                        }
+                    });
                 });
-            });
+            }
+            
             return res.status(200).send(stats);
         });
     });
