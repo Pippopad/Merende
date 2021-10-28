@@ -22,6 +22,15 @@ async function login () {
     });
 }
 
+function logout() {
+    if (window.localStorage.getItem("token")) {
+        window.localStorage.removeItem("token");
+        alert("Disconnesso");
+    } else {
+        alert("Non sei autenticato!");
+    }
+}
+
 async function getStats() {
     if (!window.localStorage.getItem("token")) alert("Prima devi autenticarti!");
 
