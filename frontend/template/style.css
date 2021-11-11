@@ -1,0 +1,146 @@
+:root {
+    --color-main: #396aff;
+    --bg: #fbfefd;
+    --bg2: #dce5ff;
+    --main-accent: #e9eefd;
+    --main-text: #4b5876;
+    --shadow: rgba(17, 17, 26, 0.1) 2px 2px 16px;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    font-family: 'Segoe UI', sans-serif;
+    list-style-type: none;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    overflow-x: hidden;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.sidebar {
+    width: 345px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding: 1rem 1.2rem;
+}
+
+.sb-container {
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 1.2rem;
+    overflow-y: auto;
+}
+
+.brand h2 {
+    color: #444;
+}
+
+.brand h2 span {
+    color: var(--color-main);
+    font-size: 2.5rem;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.sb-avatar {
+    display: grid;
+    grid-template-columns: 70px auto;
+    align-items: center;
+    border: 2px solid var(--main-accent);
+    padding: 0.5rem 0.7rem;
+    border-radius: 7px;
+    margin: 2rem 0rem;
+}
+
+.sb-avatar img {
+    border-radius: 100%;
+    width: 48px;
+    height: 48px;
+}
+
+.sb-avatar-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sb-menu li {
+    margin-bottom: 0.2rem;
+}
+
+.sb-menu a {
+    color: var(--main-text);
+    display: block;
+    padding: 0.7rem 0rem;
+}
+
+.sb-menu a.active {
+    background: var(--main-accent);
+    padding: 0.7rem;
+    border-radius: 7px;
+}
+
+.sb-menu a span:first-child {
+    display: inline-block;
+    margin-right: 0.8rem;
+    font-size: 1.5rem;
+    color: var(--color-main);
+}
+
+.btn {
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 10px;
+}
+
+.btn.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn.btn-primary {
+    background: var(--color-main);
+    color: #fff;
+}
+
+.main-container {
+    margin-left: 345px;
+    width: calc(100vw - 345px);
+    padding: 1rem 1.2rem;
+}
