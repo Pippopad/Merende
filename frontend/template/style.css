@@ -197,3 +197,69 @@ header {
     padding: 0.85rem 2rem;
     font-size: 1rem;
 }
+
+main {
+    padding-top: 3rem;
+}
+
+.analytics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0rem 2rem;
+}
+
+.analytic {
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    border-radius: 10px;
+    display: flex;
+    padding-left: 2rem;
+}
+
+.analytic-info h4 {
+    font-weight: 400;
+    color: #555;
+    font-size: 0.98rem;
+}
+
+.analytic-info h1 {
+    color: var(--main-text);
+    font-weight: 600;
+}
+
+.analytic-info h1 small {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.text-danger {
+    color: #f00;
+}
+
+.text-success {
+    color: #2ec3a3;
+}
+
+.analytic:first-child .analytic-icon {
+    background: #dce5ff;
+    color: #6883db;
+}
+
+.analytic:nth-child(2) .analytic-icon {
+    background: #ebf7f5;
+    color: red;
+}
+
+.analytic:nth-child(2) .analytic-icon {
+    background: var(--main-accent);
+    color: var(--color-main);
+}
+
+.analytic-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-right: 0.8rem;
+}
