@@ -204,7 +204,7 @@ main {
 
 .analytics {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 0rem 2rem;
 }
 
@@ -240,17 +240,7 @@ main {
     color: #2ec3a3;
 }
 
-.analytic:first-child .analytic-icon {
-    background: #dce5ff;
-    color: #6883db;
-}
-
-.analytic:nth-child(2) .analytic-icon {
-    background: #ebf7f5;
-    color: red;
-}
-
-.analytic:nth-child(2) .analytic-icon {
+.analytic .analytic-icon {
     background: var(--main-accent);
     color: var(--color-main);
 }
