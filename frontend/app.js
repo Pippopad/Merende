@@ -51,21 +51,28 @@ async function getStats() {
             "token": "Bearer " + window.localStorage.getItem("token")
         }
     }).then(response => response.json())
-    .then(data => {        
-        for (let i = 0; i < data.length; i++) {
-            const row = document.createElement("tr");
+    .then(data => {
+        
+        let dataFormatted = [];
+        data.forEach(x => {
+            dataFormatted.push(x[0].get(0));
+        });
+        console.log(dataFormatted);
 
-            const cellFood = document.createElement("th");
-            cellFood.innerHTML = data[i][0];
-            row.appendChild(cellFood);
+        // for (let i = 0; i < data.length; i++) {
+        //     const row = document.createElement("tr");
 
-            for (let j = 0; j < data[i][1].length; j++) {
-                const cell = document.createElement("td");
-                cell.innerHTML = data[i][1][j];
-                row.appendChild(cell);
-            }
+        //     const cellFood = document.createElement("th");
+        //     cellFood.innerHTML = data[i][0];
+        //     row.appendChild(cellFood);
 
-            ordersTable.children[1].appendChild(row);
-        }
+        //     for (let j = 0; j < data[i][1].length; j++) {
+        //         const cell = document.createElement("td");
+        //         cell.innerHTML = data[i][1][j];
+        //         row.appendChild(cell);
+        //     }
+
+        //     ordersTable.children[1].appendChild(row);
+        // }
     });
 }
