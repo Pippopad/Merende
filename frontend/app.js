@@ -41,23 +41,27 @@ function deleteChilds(parent) {
 }
 
 async function getStats() {
-    deleteChilds(ordersTable.children[1]);
-
     if (!window.localStorage.getItem("token")) return alert("Prima devi autenticarti!");
 
-    await fetch("http://localhost:5000/api/orders/stats", {
+    let d = await fetch("http://localhost:5000/api/orders/stats", {
         method: 'GET',
         headers: {
             "token": "Bearer " + window.localStorage.getItem("token")
         }
     }).then(response => response.json())
-    .then(data => {
-        
+    .then(data => {        
         let dataFormatted = [];
-        data.forEach(x => {
-            dataFormatted.push(x[0].get(0));
-        });
-        console.log(dataFormatted);
+        for (let j = 0; j < 6; j++) {
+            dataFormatted.push(0);
+        }
+        
+        for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < 6; j++) {
+                dataFormatted[j] += data[i][1][j][1];
+            }
+        }
+        
+        return dataFormatted;
 
         // for (let i = 0; i < data.length; i++) {
         //     const row = document.createElement("tr");
@@ -75,4 +79,6 @@ async function getStats() {
         //     ordersTable.children[1].appendChild(row);
         // }
     });
+
+    return d;
 }

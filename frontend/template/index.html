@@ -145,30 +145,35 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+        <script src="../app.js"></script>
         <script>
             Chart.defaults.font.family = "Segoe UI";
             const ctx = document.getElementById('chart').getContext('2d');
-            const incomeChart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
-                    datasets: [
-                        {
-                            label: "Ricavo giornaliero (€)",
-                            borderColor: "#396aff",
-                            backgroundColor: "#396aff55",
-                            borderWidth: 2,
-                            data: [1800, 920, 1529, 700, 937, 2011]
+
+            let chartDataPromise = getStats();
+            chartDataPromise.then(chartData => {
+                const incomeChart = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
+                        datasets: [
+                            {
+                                label: "Ricavo giornaliero (€)",
+                                borderColor: "#396aff",
+                                backgroundColor: "#396aff55",
+                                borderWidth: 2,
+                                data: chartData
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        tooltips: {
+                            intersect: false,
+                            node: "index"
                         }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    tooltips: {
-                        intersect: false,
-                        node: "index"
                     }
-                }
+                });
             });
         </script>
     </body>
