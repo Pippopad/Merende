@@ -69,7 +69,7 @@ router.get('/stats', verifyAdmin, (req, res) => {
     conn.query("SELECT * from orders WHERE YEAR(CURRENT_DATE)*52+WEEK(CURRENT_DATE, 1) - YEAR(date)*52 - WEEK(date, 1) = 1", (err, rows, fields) => {
         conn.query("SELECT * FROM foods", (err2, rows2, fields2) => {
             for (let i = 0; i < rows2.length; i++) {
-                stats.push([rows2[i].name, [0, 0, 0, 0, 0, 0]]);
+                stats.push([rows2[i].name, [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]]);
             }
             
             for (let i = 0; i < rows2.length; i++) {
@@ -79,7 +79,8 @@ router.get('/stats', verifyAdmin, (req, res) => {
                         if (order.foodId == food.foodId) {
                             for (let j = 0; j < 6; j++) {
                                 if (stats[i][0] == food.name && (((date.getDay() - 1) % 7) + 7) % 7 == j) {
-                                    stats[i][1][j] += 1;
+                                    stats[i][1][j][0] += 1;
+                                    stats[i][1][j][1] += food.price;
                                 }
                             }
                         }
