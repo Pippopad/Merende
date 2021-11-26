@@ -22,15 +22,15 @@ router.post('/', verifyNotAdmin, (req, res) => {
     conn.query("SELECT * FROM foods", (err, rows, fields) => {
         validFoodsLength = rows.length;
         
-        var sql = "INSERT INTO orders (userOwner, classOwner, foodId) VALUES";
+        var sql_orders = `INSERT INTO orders (userId) VALUES (${req.user.userId})`;
+        var sql_order_details = "INSERT INTO order_details (orderId, foodId, quantity) VALUES";
         var error = false;
     
         foods.forEach(food => {
-            if (typeof food === 'number'    &&
-                Number.isInteger(food)      &&
-                food > 0                    &&
-                food <= validFoodsLength) {
-                    sql += ` (${req.user.userId}, '${req.user.attribute}', ${food}),`;
+            if (typeof food[0] === 'number'    &&
+                Number.isInteger(food[0])      &&
+                food[0] > 0                    &&
+                food[0] <= validFoodsLength) {
             } else {
                 if (!error) res.status(400).send({ message: "Invalid food index!" });
                 error = true;
@@ -38,9 +38,13 @@ router.post('/', verifyNotAdmin, (req, res) => {
         });
     
         if (!error) {
-            sql = sql.substr(0, sql.length - 1);
-        
-            conn.query(sql, (err, rows, fields) => {});
+            conn.query(sql_orders, (err2, rows2, fields2) => {
+                foods.forEach(food => {
+                    sql_order_details += ` (${rows2.insertId}, ${food[0]}, ${food[1]}),`;
+                });
+                sql_order_details = sql_order_details.substr(0, sql_order_details.length - 1);
+                conn.query(sql_order_details);
+            });
             return res.status(201).send({ message: req.body });
         }
     });
@@ -52,7 +56,7 @@ router.post('/', verifyNotAdmin, (req, res) => {
     Endpoint per vedere tutti gli ordini
 */
 router.get('/', verifyAdmin, (req, res) => {
-    conn.query("SELECT * FROM orders", (err, rows, fields) => {
+    conn.query("SELECT * FROM order_details", (err, rows, fields) => {
         return res.status(200).send({ rows });
     });
 });

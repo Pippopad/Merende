@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const internal = require('stream');
 
 // Verifica che il token di accesso sia valido
 const verifyToken = (req, res, next) => {

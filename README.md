@@ -4,9 +4,9 @@ Web App che permette di fare le ordinazioni delle merende online
 ## Installazione
 Usa lo script [sql](https://github.com/Pippopad/Merende/blob/master/merende.sql) per configurare il database.  
 Nel database sono già presenti degli utenti:
-  - admin:Cartoni22
+  - admin:admin
       - Amministratore
-  - s23710:Cartoni22
+  - s23710:password
       - 3 CI
   - s23552:password
       - 3 CI
@@ -28,7 +28,7 @@ DB_NAME = <nome_del_database>
 JWT_KEY = <chiave_per_criptare_i_token_di_accesso>
 AUTH_KEY = <chiave_per_criptare_le_password_degli_utenti>
 ```
-*N.B: Il valore di default di AUTH_KEY è `g5Ru4eTv6pvI2t1YD43w2W4tvdDvo6R`*
+*N.B: Il valore di default di AUTH_KEY è `lO7BerKSKuytVR5ke77v67R6rv6orYTsw4d3tyAAgIUYBOy6r5EgfvhG`*
 
 Fai partire il progetto:
 ```shell
