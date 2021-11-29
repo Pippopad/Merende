@@ -51,7 +51,7 @@ router.get('/stats', verifyAdmin, (req, res) => {
         6: {},
         7: {}
     };
-//
+
     conn.query("SELECT * FROM orders", (err, rows, fields) => {
         conn.query("SELECT * FROM foods", (err2, rows2, fields2) => {
             rows2.forEach(food => {
