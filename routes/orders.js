@@ -9,6 +9,13 @@ const { verifyToken, verifyAuthorization, verifyNotAdmin, verifyAdmin } = requir
 
     Il corpo della richiesta deve comprendere:
         - foods         | La lista di cibi da ordinare
+    
+    Esempio:
+    {
+        "foods": [
+            [foodId, amount]
+        ]
+    }
 */
 router.post('/', verifyNotAdmin, (req, res) => {
     const foods = req.body.foods;
@@ -70,30 +77,48 @@ router.get('/', verifyAdmin, (req, res) => {
 router.get('/stats', verifyAdmin, (req, res) => {
     var stats = [];
 
-    conn.query("SELECT * from orders WHERE YEAR(CURRENT_DATE)*52+WEEK(CURRENT_DATE, 1) - YEAR(date)*52 - WEEK(date, 1) = 1", (err, rows, fields) => {
-        conn.query("SELECT * FROM foods", (err2, rows2, fields2) => {
-            for (let i = 0; i < rows2.length; i++) {
-                stats.push([rows2[i].name, [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]]);
+    conn.query("SELECT *, (SELECT date FROM orders WHERE order_details.orderId = orders.orderId LIMIT 1) AS date FROM order_details WHERE YEAR(CURRENT_DATE)*52+WEEK(CURRENT_DATE, 1) - YEAR((SELECT date FROM orders WHERE orders.orderId = order_details.orderId LIMIT 1))*52 - WEEK((SELECT date FROM orders WHERE orders.orderId = order_details.orderId LIMIT 1), 1) = 1; SELECT * FROM foods", (err, rows, fields) => {
+        // Chart Data
+        {
+            // rows[0] = orders
+            // rows[1] = list of all food
+            for (let i = 0; i < rows[1].length; i++) {
+                /*
+                Per tutti i cibi dentro al tabella cibi (nel database)
+
+                [
+                    "Food Name",
+                    [
+                        [amount, price],    <- Lunedì
+                        [amount, price],    <- Martedì
+                        [amount, price],    <- Mercoledì
+                        [amount, price],    <- Giovedì
+                        [amount, price],    <- Venerdiì
+                        [amount, price]     <- Sabato
+                    ]
+                ]
+                */
+                stats.push([rows[1][i].name, [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]]);
             }
             
-            for (let i = 0; i < rows2.length; i++) {
-                rows2.forEach(food => {
-                    rows.forEach(order => {
+            for (let i = 0; i < rows[1].length; i++) {
+                rows[1].forEach(food => {
+                    rows[0].forEach(order => {
                         const date = new Date(order.date);
                         if (order.foodId == food.foodId) {
                             for (let j = 0; j < 6; j++) {
-                                if (stats[i][0] == food.name && (((date.getDay() - 1) % 7) + 7) % 7 == j) {
-                                    stats[i][1][j][0] += 1;
-                                    stats[i][1][j][1] += food.price;
+                                if (stats[i][0] == food.name && (((date.getDay() - 1) % 6) + 6) % 6 == j) {
+                                    stats[i][1][j][0] = rows[0][rows[0].indexOf(order)].quantity;
+                                    stats[i][1][j][1] = food.price * rows[0][rows[0].indexOf(order)].quantity;
                                 }
                             }
                         }
                     });
                 });
             }
-            
-            return res.status(200).send(stats);
-        });
+        }
+
+        return res.status(200).send(stats);
     });
 });
 
@@ -114,7 +139,6 @@ router.get('/user/:userId', verifyAuthorization, (req, res) => {
     Endpoint per vedere tutti gli ordini di un classe (accessibile solo da un amministratore)
 */
 router.get('/class/:class', verifyAdmin, (req, res) => {
-    console.log(req.params.class);
     conn.query(`SELECT * FROM orders WHERE classOwner='${req.params.class}'`, (err, rows, fields) => {
         return res.status(200).send(rows);
     });

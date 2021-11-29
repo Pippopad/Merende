@@ -43,13 +43,14 @@ function deleteChilds(parent) {
 async function getStats() {
     if (!window.localStorage.getItem("token")) return alert("Prima devi autenticarti!");
 
+    
     let d = await fetch("http://localhost:5000/api/orders/stats", {
         method: 'GET',
         headers: {
             "token": "Bearer " + window.localStorage.getItem("token")
         }
     }).then(response => response.json())
-    .then(data => {        
+    .then(data => {
         let dataFormatted = [];
         for (let j = 0; j < 6; j++) {
             dataFormatted.push(0);
@@ -62,22 +63,6 @@ async function getStats() {
         }
         
         return dataFormatted;
-
-        // for (let i = 0; i < data.length; i++) {
-        //     const row = document.createElement("tr");
-
-        //     const cellFood = document.createElement("th");
-        //     cellFood.innerHTML = data[i][0];
-        //     row.appendChild(cellFood);
-
-        //     for (let j = 0; j < data[i][1].length; j++) {
-        //         const cell = document.createElement("td");
-        //         cell.innerHTML = data[i][1][j];
-        //         row.appendChild(cell);
-        //     }
-
-        //     ordersTable.children[1].appendChild(row);
-        // }
     });
 
     return d;

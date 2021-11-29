@@ -152,6 +152,8 @@
 
             let chartDataPromise = getStats();
             chartDataPromise.then(chartData => {
+                let average = chartData.reduce((a, b) => a + b, 0) / chartData.length || 0;
+                let max = Math.max.apply(null, chartData) + average / 2;
                 const incomeChart = new Chart(ctx, {
                     type: "bar",
                     data: {
@@ -171,6 +173,17 @@
                         tooltips: {
                             intersect: false,
                             node: "index"
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                suggestedMax: max
+                            }
                         }
                     }
                 });
