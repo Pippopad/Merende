@@ -1,5 +1,5 @@
 # Merende
-Web App che permette di ordinare la merende online
+Web App che permette di fare le ordinazioni delle merende online
 
 ## Installazione
 Usa lo script [sql](https://github.com/Pippopad/Merende/blob/master/merende.sql) per configurare il database.  
