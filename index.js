@@ -7,9 +7,6 @@ const dotenv = require('dotenv');
 // Carica il file di configurazione (.env)
 dotenv.config();
 
-// Connect to the database
-const conn = require('./connection');
-
 // Variabili contenenti le routes
 const authRoute = require('./routes/auth');
 const ordersRoute = require('./routes/orders');

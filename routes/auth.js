@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const conn = require('../connection');
+const pool = require('../database');
 const CryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
 
@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
         - username      | Un username valido
         - password      | La password del rispettivo username
 */
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -20,25 +20,19 @@ router.post('/login', (req, res) => {
     if (!username) return res.status(400).send({ message: "Username required!" });
     if (!password) return res.status(400).send({ message: "Password required!" });
 
-    conn.query(`SELECT * FROM users WHERE username='${username}'`, (err, rows, fields) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send({});
-        }
+    const rows = await pool.query("SELECT * FROM users WHERE username=?", username);
 
-        if (rows.length === 0) return res.status(401).send({ message: "Invalid credentials!" });
+    if (rows.length === 0) return res.status(401).send({ message: "Invalid credentials!" });
 
-        // Verifica che la password inserita sia uguale a quella registrata
-        if (password != CryptoJS.AES.decrypt(rows[0].password, process.env.AUTH_KEY).toString(CryptoJS.enc.Utf8)) {
-            return res.status(401).send({ message: "Invalid credentials!" });
-        }
+    // Verifica che la password inserita sia uguale a quella registrata
+    if (password != CryptoJS.AES.decrypt(rows[0].password, process.env.AUTH_KEY).toString(CryptoJS.enc.Utf8)) {
+        return res.status(401).send({ message: "Invalid credentials!" });
+    }
 
-        const token = jwt.sign({ userId: rows[0].userId, attribute: rows[0].attribute }, process.env.JWT_KEY, { expiresIn: "10m" });
+    const token = jwt.sign({ userId: rows[0].userId, attribute: rows[0].attribute }, process.env.JWT_KEY, { expiresIn: "10m" });
 
-        // Login effettuato con successo
-        return res.status(200).send({ token });
-    });
-
+    // Login effettuato con successo
+    return res.status(200).send({ token });
 });
 
 /*
